@@ -139,11 +139,11 @@ void EM_report(const uint32_t ident,
                   const uint8_t errorRegister,
                   const uint8_t errorBit,
                   const uint32_t infoCode) {
-    char buf[30];
+    char buf[60];
     int len;
 
     len = sprintf(buf,
-                  "EM: %04x %02x %01x %01x %04x\r\n",
+                  "EM: %08x %04x %02x %02x %08x\r\n",
                   ident,
                   errorCode,
                   errorRegister,
