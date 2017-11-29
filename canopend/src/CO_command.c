@@ -57,6 +57,7 @@ char                       *CO_command_socketPath = "/tmp/CO_command_socket";  /
 /* Variables */
 static void*                command_thread(void* arg);
 static pthread_t            command_thread_id;
+static int                  command_client_fd;
 static void                 command_process(int fd, char* command, size_t commandLength);
 static int                  fdSocket;
 static uint16_t             comm_net = 1;   /* default CAN net number */
@@ -102,6 +103,13 @@ int CO_command_init(void) {
     return 0;
 }
 
+/******************************************************************************/
+int CO_command_write(const char *buf, int count) {
+
+    if(command_client_fd == 0) return 0;
+    else return write(command_client_fd, buf, count);
+}
+
 
 /******************************************************************************/
 int CO_command_clear(void) {
@@ -145,7 +153,6 @@ int CO_command_clear(void) {
 
 /******************************************************************************/
 static void* command_thread(void* arg) {
-    int fd;
     ssize_t n;
     char buf[STRING_BUFFER_SIZE];
 
@@ -153,15 +160,15 @@ static void* command_thread(void* arg) {
     while(endProgram == 0) {
 
         /* wait for new command */
-        fd = accept(fdSocket, NULL, NULL);
-        if(fd == -1) {
+        command_client_fd = accept(fdSocket, NULL, NULL);
+        if(command_client_fd == -1) {
             CO_error(0x15100000L);
         }
 
         /* Read command and send answer. */
-        while((n = read(fd, buf, sizeof(buf)-1)) > 0) {
+        while((n = read(command_client_fd, buf, sizeof(buf)-1)) > 0) {
             buf[n++] = 0; /* terminate input string */
-            command_process(fd, buf, n);
+            command_process(command_client_fd, buf, n);
         }
 
         if(n == -1){
@@ -169,9 +176,10 @@ static void* command_thread(void* arg) {
         }
 
         /* close current communication */
-        if(close(fd) == -1) {
+        if(close(command_client_fd) == -1) {
             CO_error(0x15900000L);
         }
+        else command_client_fd = 0;
     }
 
     return NULL;

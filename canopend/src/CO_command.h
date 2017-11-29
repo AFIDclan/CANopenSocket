@@ -50,6 +50,13 @@ extern char *CO_command_socketPath;
  */
 int CO_command_init(void);
 
+/**
+ * Writes to the connected client if one exists.
+ *
+ * @return number of bytes written on success, or 0.
+ */
+int CO_command_write(const char *buf, int count);
+
 
 /**
  * Terminate thread and remove socket.
