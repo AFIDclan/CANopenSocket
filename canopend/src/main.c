@@ -134,7 +134,7 @@ fprintf(stderr,
 }
 
 /* Handle CANopen emergency messages. */
-void report_error(const uint32_t ident,
+void EM_report(const uint32_t ident,
                   const uint16_t errorCode,
                   const uint8_t errorRegister,
                   const uint8_t errorBit,
@@ -143,7 +143,7 @@ void report_error(const uint32_t ident,
     int len;
 
     len = sprintf(buf,
-                  "ERROR: 0x %04x %02x %01x %01x %04x\r\n",
+                  "EM: %04x %02x %01x %01x %04x\r\n",
                   ident,
                   errorCode,
                   errorRegister,
@@ -311,7 +311,7 @@ int main (int argc, char *argv[]) {
 
 
         /* Configure callback functions for task control */
-        CO_EM_initCallback(CO->em, report_error);
+        CO_EM_initCallback(CO->em, EM_report);
         CO_SDO_initCallback(CO->SDO[0], taskMain_cbSignal);
         CO_SDOclient_initCallback(CO->SDOclient, taskMain_cbSignal);
 
