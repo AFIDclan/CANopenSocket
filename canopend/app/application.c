@@ -83,8 +83,7 @@ void app_program1ms(void){
         last_pitch = pitch;
         last_roll = roll;
 
-        len = sprintf(buf, "Y%f P%f R%f", yaw_f, pitch_f, roll_f);
-        puts(buf);
+        len = sprintf(buf, "PDO: %f %f %f", yaw_f, pitch_f, roll_f);
         CO_command_write(buf, len);
     }
 }
