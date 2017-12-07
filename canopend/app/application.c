@@ -59,7 +59,6 @@ void app_program1ms(void){
     static uint8_t count;
     static int16_t last_yaw, last_pitch, last_roll;
 
-    CO->NMT->operatingState = CO_NMT_OPERATIONAL;
     if(++count >= 100)
     {
         int16_t yaw, pitch, roll;
@@ -83,7 +82,7 @@ void app_program1ms(void){
         last_pitch = pitch;
         last_roll = roll;
 
-        len = sprintf(buf, "PDO: %f %f %f", yaw_f, pitch_f, roll_f);
+        len = sprintf(buf, "PDO: %f %f %f\r\n", yaw_f, pitch_f, roll_f);
         CO_command_write(buf, len);
     }
 }
