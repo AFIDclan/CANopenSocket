@@ -26,6 +26,8 @@
 
 
 #include "CANopen.h"
+#include "CO_command.h"
+#include <stdio.h>
 
 
 /******************************************************************************/
@@ -54,5 +56,27 @@ void app_programAsync(uint16_t timer1msDiff){
 
 /******************************************************************************/
 void app_program1ms(void){
+    static uint8_t count;
 
+    CO->NMT->operatingState = CO_NMT_OPERATIONAL;
+    if(++count >= 100)
+    {
+        int16_t yaw, pitch, roll;
+        float yaw_f, pitch_f, roll_f;
+        char buf[40];
+        int len;
+
+        yaw = ((OD_look >> 32) & 0xFFFF);
+        pitch = ((OD_look >> 16) & 0xFFFF);
+        roll = (OD_look & 0xFFFF);
+
+        yaw_f = yaw / 1000.0;
+        pitch_f = pitch /1000.0;
+        roll_f = roll / 1000.0;
+
+        len = sprintf(buf, "Y%f P%f R%f", yaw_f, pitch_f, roll_f);
+        puts(buf);
+        CO_command_write(buf, len);
+        count = 0;
+    }
 }

@@ -134,16 +134,17 @@ fprintf(stderr,
 }
 
 /* Handle CANopen emergency messages. */
-void EM_report(const uint32_t ident,
-                  const uint16_t errorCode,
-                  const uint8_t errorRegister,
-                  const uint8_t errorBit,
-                  const uint32_t infoCode) {
-    char buf[60];
+void EM_report(const uint16_t ident,
+               const uint16_t errorCode,
+               const uint8_t errorRegister,
+               const uint8_t errorBit,
+               const uint32_t infoCode) {
+
+    char buf[40];
     int len;
 
     len = sprintf(buf,
-                  "EM: %08x %04x %02x %02x %08x\r\n",
+                  "EM: %04x %04x %02x %02x %08x\r\n",
                   ident,
                   errorCode,
                   errorRegister,
