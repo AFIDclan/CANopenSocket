@@ -57,7 +57,8 @@ void app_programAsync(uint16_t timer1msDiff){
 /******************************************************************************/
 void app_program1ms(void){
     static uint8_t count;
-    static int16_t last_yaw, last_pitch, last_roll;
+
+    CO->NMT->operatingState = CO_NMT_OPERATIONAL;
 
     if(++count >= 100)
     {
@@ -71,18 +72,12 @@ void app_program1ms(void){
         pitch = ((OD_look >> 16) & 0xFFFF);
         roll = (OD_look & 0xFFFF);
 
-        if(yaw == last_yaw && pitch == last_pitch && roll == last_roll)
-            return;
-
         yaw_f = yaw / 1000.0;
         pitch_f = pitch /1000.0;
         roll_f = roll / 1000.0;
 
-        last_yaw = yaw;
-        last_pitch = pitch;
-        last_roll = roll;
-
         len = sprintf(buf, "PDO: %f %f %f\r\n", yaw_f, pitch_f, roll_f);
+        //puts(buf);
         CO_command_write(buf, len);
     }
 }
