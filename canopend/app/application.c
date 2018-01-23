@@ -28,6 +28,7 @@
 #include "CANopen.h"
 #include "CO_command.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 
 /******************************************************************************/
@@ -57,6 +58,9 @@ void app_programAsync(uint16_t timer1msDiff){
 /******************************************************************************/
 void app_program1ms(void){
     static uint8_t count;
+    static int16_t last_yaw;
+    static int16_t last_pitch;
+    static int16_t last_roll;
 
     CO->NMT->operatingState = CO_NMT_OPERATIONAL;
 
@@ -72,12 +76,23 @@ void app_program1ms(void){
         pitch = ((OD_look >> 16) & 0xFFFF);
         roll = (OD_look & 0xFFFF);
 
-        yaw_f = yaw / 1000.0;
-        pitch_f = pitch /1000.0;
-        roll_f = roll / 1000.0;
+        // Discard jumps of 0.2 Rad (~12 degrees)
+        if(abs(yaw - last_yaw) < 200) yaw_f = last_yaw / 1000.0;
+        else yaw_f = yaw / 1000.0;
 
+        if(abs(pitch - last_pitch) < 200) pitch_f = last_pitch / 1000.0;
+        else pitch_f = pitch / 1000.0;
+
+        if(abs(roll - last_roll) < 200) roll_f = last_roll / 1000.0;
+        else roll_f = roll / 1000.0;
+
+        // Send data to socket
         len = sprintf(buf, "PDO: %f %f %f\r\n", yaw_f, pitch_f, roll_f);
         //puts(buf);
         CO_command_write(buf, len);
+
+        last_yaw = yaw;
+        last_pitch = pitch;
+        last_roll = roll;
     }
 }
