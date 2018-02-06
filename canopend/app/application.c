@@ -76,10 +76,6 @@ void app_program1ms(void){
         pitch = ((OD_look >> 16) & 0xFFFF);
         roll = (OD_look & 0xFFFF);
 
-        // yaw = 200
-        // last_yaw = 0
-        // last_last_yaw = 200
-
         // Discard jumps of 0.2 Rad (~12 degrees)
         if((abs(yaw - last_yaw) > 200) && (abs(yaw - last_last_yaw) > 200))
             yaw_f = last_yaw / 1000.0;
@@ -94,7 +90,7 @@ void app_program1ms(void){
         else roll_f = roll / 1000.0;
 
         // Send data to socket
-        len = sprintf(buf, "PDO: %f %f %f\r\n", yaw_f, pitch_f, roll_f);
+        len = sprintf(buf, "PDO: %.5f %.5f %.5f\r\n", yaw_f, pitch_f, roll_f);
         //puts(buf);
         CO_command_write(buf, len);
 
