@@ -58,7 +58,7 @@ char                       *CO_command_socketPath = "/tmp/CO_command_socket";  /
 static void*                command_thread(void* arg);
 static pthread_t            command_thread_id;
 static int                  command_client_fd;
-static void                 command_process(int fd, char* command, size_t commandLength);
+static void                 command_process(int fd, char* command);
 static int                  fdSocket;
 static uint16_t             comm_net = 1;   /* default CAN net number */
 static uint8_t              comm_node_default = 0xFF;  /* CANopen Node ID number is undefined at startup. */
@@ -155,6 +155,9 @@ int CO_command_clear(void) {
 static void* command_thread(void* arg) {
     ssize_t n;
     char buf[STRING_BUFFER_SIZE];
+    char command[STRING_BUFFER_SIZE];
+    char *start;
+    char *end;
 
     /* Almost endless loop */
     while(endProgram == 0) {
@@ -167,8 +170,24 @@ static void* command_thread(void* arg) {
 
         /* Read command and send answer. */
         while((n = read(command_client_fd, buf, sizeof(buf)-1)) > 0) {
-            buf[n++] = 0; /* terminate input string */
-            command_process(command_client_fd, buf, n);
+            buf[n] = 0; /* terminate input string */
+
+            start = buf;
+            end = memchr(buf, '\n', n);
+            if(end == NULL) command_process(command_client_fd, buf);
+            else
+            {
+                while(end != NULL)
+                {
+                    int len = end-start+1;
+                    if(len <= 1) break;
+
+                    snprintf(command, len, "%s", start);
+                    command_process(command_client_fd, command);
+                    start = end+1;
+                    end = memchr(start, '\n', n-(start-buf));
+                }
+            }
         }
 
         if(n == -1){
@@ -187,7 +206,7 @@ static void* command_thread(void* arg) {
 
 
 /******************************************************************************/
-static void command_process(int fd, char* command, size_t commandLength) {
+static void command_process(int fd, char* command) {
     int err = 0; /* syntax or other error, true or false */
     int emptyLine = 0;
     char *token;
@@ -200,7 +219,6 @@ static void command_process(int fd, char* command, size_t commandLength) {
     respErrorCode_t respErrorCode = respErrorNone;
 
     uint32_t sequence = 0;
-
 
     /* parse mandatory token '"["<sequence>"]"' */
     if((token = getTok(command, spaceDelim, &err)) == NULL) {
