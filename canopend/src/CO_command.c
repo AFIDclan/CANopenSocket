@@ -39,6 +39,7 @@
 #include <pthread.h>
 #include <sys/un.h>
 #include <sys/socket.h>
+#include <time.h>
 
 
 /* Maximum size of Object Dictionary variable transmitted via SDO. */
@@ -150,9 +151,29 @@ int CO_command_clear(void) {
     return 0;
 }
 
+// Taken from: https://gist.github.com/diabloneo/9619917
+static void timespec_diff(
+    struct timespec *start,
+    struct timespec *stop,
+    struct timespec *result)
+{
+    if ((stop->tv_nsec - start->tv_nsec) < 0) {
+        result->tv_sec = stop->tv_sec - start->tv_sec - 1;
+        result->tv_nsec = stop->tv_nsec - start->tv_nsec + 1000000000;
+    } else {
+        result->tv_sec = stop->tv_sec - start->tv_sec;
+        result->tv_nsec = stop->tv_nsec - start->tv_nsec;
+    }
+
+    return;
+}
+
 
 /******************************************************************************/
 static void* command_thread(void* arg) {
+    struct timespec time_start;
+    struct timespec time_stop;
+
     ssize_t n;
     char buf[STRING_BUFFER_SIZE];
     char command[STRING_BUFFER_SIZE];
@@ -168,9 +189,19 @@ static void* command_thread(void* arg) {
             CO_error(0x15100000L);
         }
 
+        clock_gettime(CLOCK_REALTIME, &time_start);
+
         /* Read command and send answer. */
         while((n = read(command_client_fd, buf, sizeof(buf)-1)) > 0) {
+            clock_gettime(CLOCK_REALTIME, &time_stop);
             buf[n] = 0; /* terminate input string */
+
+            struct timespec time_diff;
+            timespec_diff(&time_start, &time_stop, &time_diff);
+
+            printf("Idle for %zu seconds and %zu nanoseconds.\n",
+                time_diff.tv_sec,
+                time_diff.tv_nsec);
 
             start = buf;
             end = memchr(buf, '\n', n);
@@ -186,6 +217,7 @@ static void* command_thread(void* arg) {
             }
 
             command_process(command_client_fd, start);
+            clock_gettime(CLOCK_REALTIME, &time_start);
         }
 
         if(n == -1){
@@ -205,6 +237,9 @@ static void* command_thread(void* arg) {
 
 /******************************************************************************/
 static void command_process(int fd, char* command) {
+    struct timespec time_start;
+    struct timespec time_stop;
+
     int err = 0; /* syntax or other error, true or false */
     int emptyLine = 0;
     char *token;
@@ -232,6 +267,7 @@ static void command_process(int fd, char* command) {
             }
         }
         else {
+            clock_gettime(CLOCK_REALTIME, &time_start);
             token[strlen(token)-1] = '\0';
             sequence = getU32(token+1, 0, 0xFFFFFFFF, &err);
         }
@@ -570,8 +606,15 @@ static void command_process(int fd, char* command) {
             respErrorCode = respErrorReqNotSupported;
             err = 1;
         }
-    }
 
+        clock_gettime(CLOCK_REALTIME, &time_stop);
+
+        struct timespec time_diff;
+        timespec_diff(&time_start, &time_stop, &time_diff);
+        printf("Finished request '%d' in %zu nanoseconds.\n",
+            sequence,
+            time_diff.tv_nsec);
+    }
 
     /* Generate error response (or leave empty line response) */
     if(err != 0 && emptyLine == 0) {
@@ -580,7 +623,6 @@ static void command_process(int fd, char* command) {
         }
         respLen = sprintf(resp, "[%d] ERROR: %d", sequence, respErrorCode);
     }
-
 
     /* Terminate string and send response */
     resp[respLen++] = '\r';
