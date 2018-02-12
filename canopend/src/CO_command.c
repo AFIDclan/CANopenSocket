@@ -174,20 +174,18 @@ static void* command_thread(void* arg) {
 
             start = buf;
             end = memchr(buf, '\n', n);
-            if(end == NULL) command_process(command_client_fd, buf);
-            else
-            {
-                while(end != NULL)
-                {
-                    int len = end-start+1;
-                    if(len <= 1) break;
+            while(end != NULL) {
 
-                    snprintf(command, len, "%s", start);
+                if(end-start > 1)
+                {
+                    snprintf(command, (end-start)+1, "%s", start);
                     command_process(command_client_fd, command);
-                    start = end+1;
-                    end = memchr(start, '\n', n-(start-buf));
                 }
+                start = end+1;
+                end = memchr(start, '\n', n-(start-buf));
             }
+
+            command_process(command_client_fd, start);
         }
 
         if(n == -1){
