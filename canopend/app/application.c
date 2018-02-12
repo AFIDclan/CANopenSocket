@@ -62,8 +62,6 @@ void app_program1ms(void){
     static int16_t last_pitch, last_last_pitch;
     static int16_t last_roll, last_last_roll;
 
-    CO->NMT->operatingState = CO_NMT_OPERATIONAL;
-
     if(++count >= 100)
     {
         int16_t yaw, pitch, roll;
@@ -89,10 +87,13 @@ void app_program1ms(void){
             roll_f = last_roll / 1000.0;
         else roll_f = roll / 1000.0;
 
-        // Send data to socket
-        len = sprintf(buf, "PDO: %.5f %.5f %.5f\r\n", yaw_f, pitch_f, roll_f);
-        //puts(buf);
-        CO_command_write(buf, len);
+        // Send data to socket if there was a change
+        if(last_yaw != yaw || last_pitch != pitch || last_roll != roll)
+        {
+            len = sprintf(buf, "PDO: %.5f %.5f %.5f\r\n", yaw_f, pitch_f, roll_f);
+            puts(buf);
+            CO_command_write(buf, len);
+        }
 
         last_last_yaw = last_yaw;
         last_last_pitch = last_pitch;
