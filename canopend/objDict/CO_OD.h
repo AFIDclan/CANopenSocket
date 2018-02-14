@@ -48,7 +48,7 @@
    to do so, delete this exception statement from your version.
 
    This file was automatically generated with libedssharp Object
-   Dictionary Editor v0.6-xdd-alpha-81-gb562769
+   Dictionary Editor v0.6-xdd-2-25-g654cd98
    DON'T EDIT THIS FILE MANUALLY !!!!
 *******************************************************************************/
 
@@ -56,7 +56,7 @@
 #pragma once
 
 /*******************************************************************************
-   CANopen DATA DYPES
+   CANopen DATA TYPES
 *******************************************************************************/
    typedef bool_t       BOOLEAN;
    typedef uint8_t      UNSIGNED8;
@@ -72,6 +72,20 @@
    typedef char_t       VISIBLE_STRING;
    typedef oChar_t      OCTET_STRING;
    typedef domain_t     DOMAIN;
+
+#ifndef timeOfDay_t
+    typedef union {
+        unsigned long long ullValue;
+        struct {
+            unsigned long ms:28;
+            unsigned reserved:4;
+            unsigned days:16;
+            unsigned reserved2:16;
+        };
+    }timeOfDay_t;
+#endif
+
+    typedef timeOfDay_t TIME_OF_DAY;
 
 
 /*******************************************************************************
@@ -102,7 +116,7 @@
   #define CO_NO_SDO_CLIENT               1   //Associated objects: 1280-12FF
   #define CO_NO_LSS_SERVER               0   //LSS Slave
   #define CO_NO_LSS_CLIENT               0   //LSS Master
-  #define CO_NO_RPDO                     17   //Associated objects: 14xx, 16xx
+  #define CO_NO_RPDO                     22   //Associated objects: 14xx, 16xx
   #define CO_NO_TPDO                     16   //Associated objects: 18xx, 1Axx
   #define CO_NO_NMT_MASTER               1
 
@@ -110,7 +124,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             172
+   #define CO_OD_NoOfElements             187
 
 
 /*******************************************************************************
@@ -438,6 +452,41 @@
         #define OD_1410_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
         #define OD_1410_2_RPDOCommunicationParameter_transmissionType 2
 
+/*1411 */
+        #define OD_1411_RPDOCommunicationParameter                  0x1411
+
+        #define OD_1411_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1411_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1411_2_RPDOCommunicationParameter_transmissionType 2
+
+/*1412 */
+        #define OD_1412_RPDOCommunicationParameter                  0x1412
+
+        #define OD_1412_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1412_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1412_2_RPDOCommunicationParameter_transmissionType 2
+
+/*1413 */
+        #define OD_1413_RPDOCommunicationParameter                  0x1413
+
+        #define OD_1413_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1413_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1413_2_RPDOCommunicationParameter_transmissionType 2
+
+/*1414 */
+        #define OD_1414_RPDOCommunicationParameter                  0x1414
+
+        #define OD_1414_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1414_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1414_2_RPDOCommunicationParameter_transmissionType 2
+
+/*1415 */
+        #define OD_1415_RPDOCommunicationParameter                  0x1415
+
+        #define OD_1415_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1415_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1415_2_RPDOCommunicationParameter_transmissionType 2
+
 /*1600 */
         #define OD_1600_RPDOMappingParameter                        0x1600
 
@@ -658,6 +707,71 @@
         #define OD_1610_6_RPDOMappingParameter_mappedObject6        6
         #define OD_1610_7_RPDOMappingParameter_mappedObject7        7
         #define OD_1610_8_RPDOMappingParameter_mappedObject8        8
+
+/*1611 */
+        #define OD_1611_RPDOMappingParameter                        0x1611
+
+        #define OD_1611_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1611_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1611_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1611_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1611_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1611_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1611_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1611_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1611_8_RPDOMappingParameter_mappedObject8        8
+
+/*1612 */
+        #define OD_1612_RPDOMappingParameter                        0x1612
+
+        #define OD_1612_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1612_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1612_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1612_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1612_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1612_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1612_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1612_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1612_8_RPDOMappingParameter_mappedObject8        8
+
+/*1613 */
+        #define OD_1613_RPDOMappingParameter                        0x1613
+
+        #define OD_1613_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1613_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1613_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1613_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1613_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1613_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1613_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1613_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1613_8_RPDOMappingParameter_mappedObject8        8
+
+/*1614 */
+        #define OD_1614_RPDOMappingParameter                        0x1614
+
+        #define OD_1614_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1614_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1614_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1614_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1614_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1614_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1614_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1614_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1614_8_RPDOMappingParameter_mappedObject8        8
+
+/*1615 */
+        #define OD_1615_RPDOMappingParameter                        0x1615
+
+        #define OD_1615_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1615_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1615_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1615_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1615_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1615_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1615_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1615_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1615_8_RPDOMappingParameter_mappedObject8        8
 
 /*1800 */
         #define OD_1800_TPDOCommunicationParameter                  0x1800
@@ -1046,8 +1160,83 @@
 /*1f80 */
         #define OD_1f80_NMTStartup                                  0x1f80
 
-/*2000 */
-        #define OD_2000_look                                        0x2000
+/*2009 */
+        #define OD_2009_power                                       0x2009
+
+        #define OD_2009_0_power_maxSubIndex                         0
+        #define OD_2009_1_power_                                    1
+        #define OD_2009_2_power_                                    2
+        #define OD_2009_3_power_                                    3
+        #define OD_2009_4_power_                                    4
+        #define OD_2009_5_power_                                    5
+        #define OD_2009_6_power_                                    6
+        #define OD_2009_7_power_                                    7
+        #define OD_2009_8_power_                                    8
+
+/*200a */
+        #define OD_200a_left                                        0x200a
+
+        #define OD_200a_0_left_maxSubIndex                          0
+        #define OD_200a_1_left_                                     1
+        #define OD_200a_2_left_                                     2
+        #define OD_200a_3_left_                                     3
+        #define OD_200a_4_left_                                     4
+        #define OD_200a_5_left_                                     5
+        #define OD_200a_6_left_                                     6
+        #define OD_200a_7_left_                                     7
+        #define OD_200a_8_left_                                     8
+
+/*200b */
+        #define OD_200b_right                                       0x200b
+
+        #define OD_200b_0_right_maxSubIndex                         0
+        #define OD_200b_1_right_                                    1
+        #define OD_200b_2_right_                                    2
+        #define OD_200b_3_right_                                    3
+        #define OD_200b_4_right_                                    4
+        #define OD_200b_5_right_                                    5
+        #define OD_200b_6_right_                                    6
+        #define OD_200b_7_right_                                    7
+        #define OD_200b_8_right_                                    8
+
+/*200c */
+        #define OD_200c_neck                                        0x200c
+
+        #define OD_200c_0_neck_maxSubIndex                          0
+        #define OD_200c_1_neck_                                     1
+        #define OD_200c_2_neck_                                     2
+        #define OD_200c_3_neck_                                     3
+        #define OD_200c_4_neck_                                     4
+        #define OD_200c_5_neck_                                     5
+        #define OD_200c_6_neck_                                     6
+        #define OD_200c_7_neck_                                     7
+        #define OD_200c_8_neck_                                     8
+
+/*200d */
+        #define OD_200d_head                                        0x200d
+
+        #define OD_200d_0_head_maxSubIndex                          0
+        #define OD_200d_1_head_                                     1
+        #define OD_200d_2_head_                                     2
+        #define OD_200d_3_head_                                     3
+        #define OD_200d_4_head_                                     4
+        #define OD_200d_5_head_                                     5
+        #define OD_200d_6_head_                                     6
+        #define OD_200d_7_head_                                     7
+        #define OD_200d_8_head_                                     8
+
+/*200e */
+        #define OD_200e_drawer                                      0x200e
+
+        #define OD_200e_0_drawer_maxSubIndex                        0
+        #define OD_200e_1_drawer_                                   1
+        #define OD_200e_2_drawer_                                   2
+        #define OD_200e_3_drawer_                                   3
+        #define OD_200e_4_drawer_                                   4
+        #define OD_200e_5_drawer_                                   5
+        #define OD_200e_6_drawer_                                   6
+        #define OD_200e_7_drawer_                                   7
+        #define OD_200e_8_drawer_                                   8
 
 /*2100 */
         #define OD_2100_errorStatusBits                             0x2100
@@ -2051,12 +2240,17 @@ struct sCO_OD_RAM{
 /*1029      */ UNSIGNED8       errorBehavior[6];
 /*1200      */ OD_SDOServerParameter_t SDOServerParameter[1];
 /*1280      */ OD_SDOClientParameter_t SDOClientParameter[1];
-/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[17];
-/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[17];
+/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[22];
+/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[22];
 /*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[16];
 /*1a00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[16];
 /*1f80      */ UNSIGNED32      NMTStartup;
-/*2000      */ UNSIGNED64      look;
+/*2009      */ UNSIGNED8       power[8];
+/*200a      */ UNSIGNED8       left[8];
+/*200b      */ UNSIGNED8       right[8];
+/*200c      */ UNSIGNED8       neck[8];
+/*200d      */ UNSIGNED8       head[8];
+/*200e      */ UNSIGNED8       drawer[8];
 /*2100      */ OCTET_STRING    errorStatusBits[10];
 /*2101      */ UNSIGNED8       CANNodeID;
 /*2102      */ UNSIGNED16      CANBitRate;
@@ -2196,8 +2390,35 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 /*1f80, Data Type: UNSIGNED32 */
         #define OD_NMTStartup                                       CO_OD_RAM.NMTStartup
 
-/*2000, Data Type: UNSIGNED64 */
-        #define OD_look                                             CO_OD_RAM.look
+/*2009, Data Type: UNSIGNED8, Array[8] */
+        #define OD_power                                            CO_OD_RAM.power
+        #define ODL_power_arrayLength                               8
+        #define ODA_power_                                          0
+
+/*200a, Data Type: UNSIGNED8, Array[8] */
+        #define OD_left                                             CO_OD_RAM.left
+        #define ODL_left_arrayLength                                8
+        #define ODA_left_                                           0
+
+/*200b, Data Type: UNSIGNED8, Array[8] */
+        #define OD_right                                            CO_OD_RAM.right
+        #define ODL_right_arrayLength                               8
+        #define ODA_right_                                          0
+
+/*200c, Data Type: UNSIGNED8, Array[8] */
+        #define OD_neck                                             CO_OD_RAM.neck
+        #define ODL_neck_arrayLength                                8
+        #define ODA_neck_                                           0
+
+/*200d, Data Type: UNSIGNED8, Array[8] */
+        #define OD_head                                             CO_OD_RAM.head
+        #define ODL_head_arrayLength                                8
+        #define ODA_head_                                           0
+
+/*200e, Data Type: UNSIGNED8, Array[8] */
+        #define OD_drawer                                           CO_OD_RAM.drawer
+        #define ODL_drawer_arrayLength                              8
+        #define ODA_drawer_                                         0
 
 /*2100, Data Type: OCTET_STRING */
         #define OD_errorStatusBits                                  CO_OD_RAM.errorStatusBits
