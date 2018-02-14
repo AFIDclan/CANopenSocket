@@ -29,7 +29,9 @@
 #include "CO_command.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
+#define DEBUG
 
 /******************************************************************************/
 void app_programStart(void){
@@ -64,9 +66,9 @@ static void neck_pdo()
     float yaw_f, pitch_f, roll_f;
     int16_t yaw, pitch, roll;
 
-    memcpy(&OD_neck[0], &yaw, 2);
-    memcpy(&OD_neck[2], &pitch, 2);
-    memcpy(&OD_neck[4], &roll, 2);
+    memcpy(&yaw, &OD_neck[0], 2);
+    memcpy(&pitch, &OD_neck[2], 2);
+    memcpy(&roll, &OD_neck[4], 2);
 
     // Discard jumps of 0.2 Rad (~12 degrees)
     if((abs(yaw - last_yaw) > 200) && (abs(yaw - last_last_yaw) > 200))
@@ -86,6 +88,9 @@ static void neck_pdo()
     {
         char buf[100];
         int len = sprintf(buf, "NeckYaw=%.3f NeckPitch=%.3f NeckRoll=%.3f\n", yaw_f, pitch_f, roll_f);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
         CO_command_write(buf, len);
     }
 
@@ -103,12 +108,15 @@ static void drawer_pdo()
     static float last_temp;
 
     float temp;
-    memcpy(OD_drawer, &temp, 4);
+    memcpy(&temp, OD_drawer, 4);
 
     if(last_temp != temp)
     {
         char buf[100];
         int len = sprintf(buf, "DrawerTemp=%.3f\n", temp);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
         CO_command_write(buf, len);
     }
 
@@ -122,18 +130,21 @@ static void head_pdo()
     static uint8_t last_fans;
 
     float temp;
-    memcpy(&OD_head[0], &temp, 4);
+    memcpy(&temp, &OD_head[0], 4);
 
     int16_t rssi;
-    memcpy(&OD_head[4], &rssi, 2);
+    memcpy(&rssi, &OD_head[4], 2);
 
     uint8_t fans;
-    memcpy(&OD_head[6], &fans, 1);
+    memcpy(&fans, &OD_head[6], 1);
 
     if(temp != last_temp || last_rssi != rssi || last_fans != fans)
     {
         char buf[100];
         int len = sprintf(buf, "HeadTemp=%.3f HeadRSSI=%d HeadFans=%u\n", temp, rssi, fans);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
         CO_command_write(buf, len);
     }
 
@@ -145,12 +156,11 @@ static void head_pdo()
 void app_program1ms(void){
     static uint8_t count;
 
-
-    if(++count >= 50)
+    if(++count > 50)
     {
-        count = 0;
         neck_pdo();
         drawer_pdo();
         head_pdo();
+        count = 0;
     }
 }
