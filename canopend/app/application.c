@@ -90,8 +90,7 @@ void app_program1ms(void){
         // Send data to socket if there was a change
         if(last_yaw != yaw || last_pitch != pitch || last_roll != roll)
         {
-            len = sprintf(buf, "PDO: %.5f %.5f %.5f\r\n", yaw_f, pitch_f, roll_f);
-            puts(buf);
+            len = sprintf(buf, "PDO: %.3f %.3f %.3f\r\n", yaw_f, pitch_f, roll_f);
             CO_command_write(buf, len);
         }
 
