@@ -56,50 +56,101 @@ void app_programAsync(uint16_t timer1msDiff){
 
 
 /******************************************************************************/
-void app_program1ms(void){
-    static uint8_t count;
+static void neck_pdo()
+{
     static int16_t last_yaw, last_last_yaw;
     static int16_t last_pitch, last_last_pitch;
     static int16_t last_roll, last_last_roll;
+    float yaw_f, pitch_f, roll_f;
+    int16_t yaw, pitch, roll;
 
-    if(++count >= 100)
+    memcpy(&OD_neck[0], &yaw, 2);
+    memcpy(&OD_neck[2], &pitch, 2);
+    memcpy(&OD_neck[4], &roll, 2);
+
+    // Discard jumps of 0.2 Rad (~12 degrees)
+    if((abs(yaw - last_yaw) > 200) && (abs(yaw - last_last_yaw) > 200))
+        yaw_f = last_yaw / 1000.0;
+    else yaw_f = yaw / 1000.0;
+
+    if((abs(pitch - last_pitch) > 200) && (abs(pitch - last_last_pitch) > 200))
+        pitch_f = last_pitch / 1000.0;
+    else pitch_f = pitch / 1000.0;
+
+    if((abs(roll - last_roll) > 200) && (abs(roll - last_last_roll) > 200))
+        roll_f = last_roll / 1000.0;
+    else roll_f = roll / 1000.0;
+
+    // Send data to socket if there was a change
+    if(last_yaw != yaw || last_pitch != pitch || last_roll != roll)
     {
-        int16_t yaw, pitch, roll;
-        float yaw_f, pitch_f, roll_f;
-        char buf[40];
-        int len;
+        char buf[100];
+        int len = sprintf(buf, "NeckYaw=%.3f NeckPitch=%.3f NeckRoll=%.3f\n", yaw_f, pitch_f, roll_f);
+        CO_command_write(buf, len);
+    }
 
+    last_last_yaw = last_yaw;
+    last_last_pitch = last_pitch;
+    last_last_roll = last_roll;
+
+    last_yaw = yaw;
+    last_pitch = pitch;
+    last_roll = roll;
+}
+
+static void drawer_pdo()
+{
+    static float last_temp;
+
+    float temp;
+    memcpy(OD_drawer, &temp, 4);
+
+    if(last_temp != temp)
+    {
+        char buf[100];
+        int len = sprintf(buf, "DrawerTemp=%.3f\n", temp);
+        CO_command_write(buf, len);
+    }
+
+    last_temp = temp;
+}
+
+static void head_pdo()
+{
+    static float last_temp;
+    static int16_t last_rssi;
+    static uint8_t last_fans;
+
+    float temp;
+    memcpy(&OD_head[0], &temp, 4);
+
+    int16_t rssi;
+    memcpy(&OD_head[4], &rssi, 2);
+
+    uint8_t fans;
+    memcpy(&OD_head[6], &fans, 1);
+
+    if(temp != last_temp || last_rssi != rssi || last_fans != fans)
+    {
+        char buf[100];
+        int len = sprintf(buf, "HeadTemp=%.3f HeadRSSI=%d HeadFans=%u\n", temp, rssi, fans);
+        CO_command_write(buf, len);
+    }
+
+    last_temp = temp;
+    last_rssi = rssi;
+    last_fans = fans;
+}
+
+void app_program1ms(void){
+    static uint8_t count;
+
+
+    if(++count >= 50)
+    {
         count = 0;
-        yaw = ((OD_look >> 32) & 0xFFFF);
-        pitch = ((OD_look >> 16) & 0xFFFF);
-        roll = (OD_look & 0xFFFF);
-
-        // Discard jumps of 0.2 Rad (~12 degrees)
-        if((abs(yaw - last_yaw) > 200) && (abs(yaw - last_last_yaw) > 200))
-            yaw_f = last_yaw / 1000.0;
-        else yaw_f = yaw / 1000.0;
-
-        if((abs(pitch - last_pitch) > 200) && (abs(pitch - last_last_pitch) > 200))
-            pitch_f = last_pitch / 1000.0;
-        else pitch_f = pitch / 1000.0;
-
-        if((abs(roll - last_roll) > 200) && (abs(roll - last_last_roll) > 200))
-            roll_f = last_roll / 1000.0;
-        else roll_f = roll / 1000.0;
-
-        // Send data to socket if there was a change
-        if(last_yaw != yaw || last_pitch != pitch || last_roll != roll)
-        {
-            len = sprintf(buf, "PDO: %.3f %.3f %.3f\r\n", yaw_f, pitch_f, roll_f);
-            CO_command_write(buf, len);
-        }
-
-        last_last_yaw = last_yaw;
-        last_last_pitch = last_pitch;
-        last_last_roll = last_roll;
-
-        last_yaw = yaw;
-        last_pitch = pitch;
-        last_roll = roll;
+        neck_pdo();
+        drawer_pdo();
+        head_pdo();
     }
 }
