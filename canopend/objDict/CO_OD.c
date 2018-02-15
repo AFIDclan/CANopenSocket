@@ -68,7 +68,7 @@ struct sCO_OD_ROM CO_OD_ROM = {
            CO_OD_FIRST_LAST_WORD,
 
 /*1400*/ {{0x2L, 0x018cL, 0xfeL}},
-/*1600*/ {{0x1L, 0x20000040L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L}},
+/*1600*/ {{0x3L, 0x20030010L, 0x20020010L, 0x20010010L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L}},
 
            CO_OD_FIRST_LAST_WORD,
 };
@@ -109,6 +109,9 @@ struct sCO_OD_RAM CO_OD_RAM = {
 /*1a03*/ {0x0L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L, 0x0000L}},
 /*1f80*/ 0x0000L,
 /*2000*/ 0x00000000L,
+/*2001*/ 0x00,
+/*2002*/ 0x00,
+/*2003*/ 0x00,
 /*2100*/ {0x0L},
 /*2101*/ 0x20L,
 /*2102*/ 0xfa,
@@ -1063,7 +1066,7 @@ struct sCO_OD_EEPROM CO_OD_EEPROM = {
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-const CO_OD_entry_t CO_OD[116] = {
+const CO_OD_entry_t CO_OD[119] = {
 
 {0x1000, 0x00, 0x86, 4, (void*)&CO_OD_RAM.deviceType},
 {0x1001, 0x00, 0x26, 1, (void*)&CO_OD_RAM.errorRegister},
@@ -1098,6 +1101,9 @@ const CO_OD_entry_t CO_OD[116] = {
 {0x1a03, 0x08, 0x00, 0, (void*)&OD_record1a03},
 {0x1f80, 0x00, 0x8e, 4, (void*)&CO_OD_RAM.NMTStartup},
 {0x2000, 0x00, 0xbe, 8, (void*)&CO_OD_RAM.look},
+{0x2001, 0x00, 0xbe, 2, (void*)&CO_OD_RAM.yaw},
+{0x2002, 0x00, 0xbe, 2, (void*)&CO_OD_RAM.pitch},
+{0x2003, 0x00, 0xbe, 2, (void*)&CO_OD_RAM.roll},
 {0x2100, 0x00, 0xa6, 10, (void*)&CO_OD_RAM.errorStatusBits},
 {0x2101, 0x00, 0x0e, 1, (void*)&CO_OD_RAM.CANNodeID},
 {0x2102, 0x00, 0x8e, 2, (void*)&CO_OD_RAM.CANBitRate},

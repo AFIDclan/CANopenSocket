@@ -14,27 +14,27 @@
    This file is part of CANopenNode, an opensource CANopen Stack.
    Project home page is <https://github.com/CANopenNode/CANopenNode>.
    For more information on CANopen see <http://www.can-cia.org/>.
- 
+
    CANopenNode is free and open source software: you can redistribute
    it and/or modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation, either version 2 of the
    License, or (at your option) any later version.
-  
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
-  
+
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-  
+
    Following clarification and special exception to the GNU General Public
    License is included to the distribution terms of CANopenNode:
-  
+
    Linking this library statically or dynamically with other modules is
    making a combined work based on this library. Thus, the terms and
    conditions of the GNU General Public License cover the whole combination.
-  
+
    As a special exception, the copyright holders of this library give
    you permission to link this library with independent modules to
    produce an executable, regardless of the license terms of these
@@ -46,7 +46,7 @@
    library, you may extend this exception to your version of the
    library, but you are not obliged to do so. If you do not wish
    to do so, delete this exception statement from your version.
- 
+
    This file was automatically generated with libedssharp Object
    Dictionary Editor v0.6-xdd-2-25-g654cd98
    DON'T EDIT THIS FILE MANUALLY !!!!
@@ -67,8 +67,8 @@
    typedef int16_t      INTEGER16;
    typedef int32_t      INTEGER32;
    typedef int64_t      INTEGER64;
-   typedef float32_t    REAL32; 
-   typedef float64_t    REAL64; 
+   typedef float32_t    REAL32;
+   typedef float64_t    REAL64;
    typedef char_t       VISIBLE_STRING;
    typedef oChar_t      OCTET_STRING;
    typedef domain_t     DOMAIN;
@@ -124,7 +124,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             116
+   #define CO_OD_NoOfElements             119
 
 
 /*******************************************************************************
@@ -222,7 +222,7 @@
 /*******************************************************************************
    TYPE DEFINITIONS FOR OBJECT DICTIONARY INDEXES
 
-   some of those are redundant with CO_SDO.h CO_ObjDicId_t <Common CiA301 object 
+   some of those are redundant with CO_SDO.h CO_ObjDicId_t <Common CiA301 object
    dictionary entries>
 *******************************************************************************/
 /*1000 */
@@ -454,6 +454,15 @@
 
 /*2000 */
         #define OD_2000_look                                        0x2000
+
+/*2001 */
+        #define OD_2001_yaw                                         0x2001
+
+/*2002 */
+        #define OD_2002_pitch                                       0x2002
+
+/*2003 */
+        #define OD_2003_roll                                        0x2003
 
 /*2100 */
         #define OD_2100_errorStatusBits                             0x2100
@@ -1463,6 +1472,9 @@ struct sCO_OD_RAM{
 /*1a00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[4];
 /*1f80      */ UNSIGNED32      NMTStartup;
 /*2000      */ UNSIGNED64      look;
+/*2001      */ INTEGER16       yaw;
+/*2002      */ INTEGER16       pitch;
+/*2003      */ INTEGER16       roll;
 /*2100      */ OCTET_STRING    errorStatusBits[10];
 /*2101      */ UNSIGNED8       CANNodeID;
 /*2102      */ UNSIGNED16      CANBitRate;
@@ -1604,6 +1616,15 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*2000, Data Type: UNSIGNED64 */
         #define OD_look                                             CO_OD_RAM.look
+
+/*2001, Data Type: INTEGER16 */
+        #define OD_yaw                                              CO_OD_RAM.yaw
+
+/*2002, Data Type: INTEGER16 */
+        #define OD_pitch                                            CO_OD_RAM.pitch
+
+/*2003, Data Type: INTEGER16 */
+        #define OD_roll                                             CO_OD_RAM.roll
 
 /*2100, Data Type: OCTET_STRING */
         #define OD_errorStatusBits                                  CO_OD_RAM.errorStatusBits
