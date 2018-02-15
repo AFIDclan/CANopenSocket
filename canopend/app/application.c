@@ -64,33 +64,30 @@ void app_program1ms(void){
 
     if(++count >= 100)
     {
-        int16_t yaw, pitch, roll;
         float yaw_f, pitch_f, roll_f;
         char buf[40];
         int len;
 
         count = 0;
-        yaw = ((OD_look >> 32) & 0xFFFF);
-        pitch = ((OD_look >> 16) & 0xFFFF);
-        roll = (OD_look & 0xFFFF);
 
         // Discard jumps of 0.2 Rad (~12 degrees)
-        if((abs(yaw - last_yaw) > 200) && (abs(yaw - last_last_yaw) > 200))
+        if((abs(OD_yaw - last_yaw) > 200) && (abs(OD_yaw - last_last_yaw) > 200))
             yaw_f = last_yaw / 1000.0;
-        else yaw_f = yaw / 1000.0;
+        else yaw_f = OD_yaw / 1000.0;
 
-        if((abs(pitch - last_pitch) > 200) && (abs(pitch - last_last_pitch) > 200))
+        if((abs(OD_pitch - last_pitch) > 200) && (abs(OD_pitch - last_last_pitch) > 200))
             pitch_f = last_pitch / 1000.0;
-        else pitch_f = pitch / 1000.0;
+        else pitch_f = OD_pitch / 1000.0;
 
-        if((abs(roll - last_roll) > 200) && (abs(roll - last_last_roll) > 200))
+        if((abs(OD_roll - last_roll) > 200) && (abs(OD_roll - last_last_roll) > 200))
             roll_f = last_roll / 1000.0;
-        else roll_f = roll / 1000.0;
+        else roll_f = OD_roll / 1000.0;
 
         // Send data to socket if there was a change
-        if(last_yaw != yaw || last_pitch != pitch || last_roll != roll)
+        if(last_yaw != OD_yaw || last_pitch != OD_pitch || last_roll != OD_roll)
         {
             len = sprintf(buf, "PDO: %.3f %.3f %.3f\r\n", yaw_f, pitch_f, roll_f);
+            printf("%s", buf);
             CO_command_write(buf, len);
         }
 
@@ -98,8 +95,8 @@ void app_program1ms(void){
         last_last_pitch = last_pitch;
         last_last_roll = last_roll;
 
-        last_yaw = yaw;
-        last_pitch = pitch;
-        last_roll = roll;
+        last_yaw = OD_yaw;
+        last_pitch = OD_pitch;
+        last_roll = OD_roll;
     }
 }
