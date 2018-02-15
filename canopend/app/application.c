@@ -166,17 +166,17 @@ static void head_pdo()
 
     last_rssi = OD_RSSI;
 
-    if(last_fanspeed != OD_fans)
+    if(last_fanspeed != OD_headFans)
     {
         char buf[40];
-        int len = sprintf(buf, "Fans=%u\n", OD_fans);
+        int len = sprintf(buf, "Fans=%u\n", OD_headFans);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
         CO_command_write(buf, len);
     }
 
-    last_fanspeed = OD_fans;
+    last_fanspeed = OD_headFans;
 }
 
 void app_program1ms(void){
