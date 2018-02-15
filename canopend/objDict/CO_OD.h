@@ -116,7 +116,7 @@
   #define CO_NO_SDO_CLIENT               1   //Associated objects: 1280-12FF
   #define CO_NO_LSS_SERVER               0   //LSS Slave
   #define CO_NO_LSS_CLIENT               0   //LSS Master
-  #define CO_NO_RPDO                     3   //Associated objects: 14xx, 16xx
+  #define CO_NO_RPDO                     6   //Associated objects: 14xx, 16xx
   #define CO_NO_TPDO                     4   //Associated objects: 18xx, 1Axx
   #define CO_NO_NMT_MASTER               1
 
@@ -124,7 +124,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             126
+   #define CO_OD_NoOfElements             142
 
 
 /*******************************************************************************
@@ -354,6 +354,27 @@
         #define OD_1402_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
         #define OD_1402_2_RPDOCommunicationParameter_transmissionType 2
 
+/*1403 */
+        #define OD_1403_RPDOCommunicationParameter                  0x1403
+
+        #define OD_1403_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1403_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1403_2_RPDOCommunicationParameter_transmissionType 2
+
+/*1404 */
+        #define OD_1404_RPDOCommunicationParameter                  0x1404
+
+        #define OD_1404_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1404_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1404_2_RPDOCommunicationParameter_transmissionType 2
+
+/*1405 */
+        #define OD_1405_RPDOCommunicationParameter                  0x1405
+
+        #define OD_1405_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1405_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1405_2_RPDOCommunicationParameter_transmissionType 2
+
 /*1600 */
         #define OD_1600_RPDOMappingParameter                        0x1600
 
@@ -392,6 +413,45 @@
         #define OD_1602_6_RPDOMappingParameter_mappedObject6        6
         #define OD_1602_7_RPDOMappingParameter_mappedObject7        7
         #define OD_1602_8_RPDOMappingParameter_mappedObject8        8
+
+/*1603 */
+        #define OD_1603_RPDOMappingParameter                        0x1603
+
+        #define OD_1603_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1603_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1603_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1603_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1603_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1603_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1603_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1603_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1603_8_RPDOMappingParameter_mappedObject8        8
+
+/*1604 */
+        #define OD_1604_RPDOMappingParameter                        0x1604
+
+        #define OD_1604_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1604_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1604_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1604_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1604_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1604_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1604_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1604_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1604_8_RPDOMappingParameter_mappedObject8        8
+
+/*1605 */
+        #define OD_1605_RPDOMappingParameter                        0x1605
+
+        #define OD_1605_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1605_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1605_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1605_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1605_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1605_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1605_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1605_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1605_8_RPDOMappingParameter_mappedObject8        8
 
 /*1800 */
         #define OD_1800_TPDOCommunicationParameter                  0x1800
@@ -512,6 +572,36 @@
 
 /*2007 */
         #define OD_2007_headFans                                    0x2007
+
+/*2008 */
+        #define OD_2008_soC                                         0x2008
+
+/*2009 */
+        #define OD_2009_ahused                                      0x2009
+
+/*200a */
+        #define OD_200a_leftRPM                                     0x200a
+
+/*200b */
+        #define OD_200b_leftTemperature                             0x200b
+
+/*200c */
+        #define OD_200c_leftCurrentIn                               0x200c
+
+/*200d */
+        #define OD_200d_leftCurrentOut                              0x200d
+
+/*200e */
+        #define OD_200e_rightRPM                                    0x200e
+
+/*200f */
+        #define OD_200f_rightTemperature                            0x200f
+
+/*2010 */
+        #define OD_2010_rightCurrentIn                              0x2010
+
+/*2011 */
+        #define OD_2011_rightCurrentOut                             0x2011
 
 /*2100 */
         #define OD_2100_errorStatusBits                             0x2100
@@ -1486,8 +1576,8 @@
 struct sCO_OD_ROM{
                UNSIGNED32     FirstWord;
 
-/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[3];
-/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[3];
+/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[6];
+/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[6];
 
                UNSIGNED32     LastWord;
 };
@@ -1527,6 +1617,16 @@ struct sCO_OD_RAM{
 /*2005      */ REAL32          headTemperature;
 /*2006      */ INTEGER16       RSSI;
 /*2007      */ UNSIGNED8       headFans;
+/*2008      */ REAL32          soC;
+/*2009      */ REAL32          ahused;
+/*200a      */ INTEGER16       leftRPM;
+/*200b      */ INTEGER16       leftTemperature;
+/*200c      */ INTEGER16       leftCurrentIn;
+/*200d      */ INTEGER16       leftCurrentOut;
+/*200e      */ INTEGER16       rightRPM;
+/*200f      */ INTEGER16       rightTemperature;
+/*2010      */ INTEGER16       rightCurrentIn;
+/*2011      */ INTEGER16       rightCurrentOut;
 /*2100      */ OCTET_STRING    errorStatusBits[10];
 /*2101      */ UNSIGNED8       CANNodeID;
 /*2102      */ UNSIGNED16      CANBitRate;
@@ -1686,6 +1786,36 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*2007, Data Type: UNSIGNED8 */
         #define OD_headFans                                         CO_OD_RAM.headFans
+
+/*2008, Data Type: REAL32 */
+        #define OD_soC                                              CO_OD_RAM.soC
+
+/*2009, Data Type: REAL32 */
+        #define OD_ahused                                           CO_OD_RAM.ahused
+
+/*200a, Data Type: INTEGER16 */
+        #define OD_leftRPM                                          CO_OD_RAM.leftRPM
+
+/*200b, Data Type: INTEGER16 */
+        #define OD_leftTemperature                                  CO_OD_RAM.leftTemperature
+
+/*200c, Data Type: INTEGER16 */
+        #define OD_leftCurrentIn                                    CO_OD_RAM.leftCurrentIn
+
+/*200d, Data Type: INTEGER16 */
+        #define OD_leftCurrentOut                                   CO_OD_RAM.leftCurrentOut
+
+/*200e, Data Type: INTEGER16 */
+        #define OD_rightRPM                                         CO_OD_RAM.rightRPM
+
+/*200f, Data Type: INTEGER16 */
+        #define OD_rightTemperature                                 CO_OD_RAM.rightTemperature
+
+/*2010, Data Type: INTEGER16 */
+        #define OD_rightCurrentIn                                   CO_OD_RAM.rightCurrentIn
+
+/*2011, Data Type: INTEGER16 */
+        #define OD_rightCurrentOut                                  CO_OD_RAM.rightCurrentOut
 
 /*2100, Data Type: OCTET_STRING */
         #define OD_errorStatusBits                                  CO_OD_RAM.errorStatusBits
