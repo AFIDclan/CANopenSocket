@@ -116,7 +116,7 @@
   #define CO_NO_SDO_CLIENT               1   //Associated objects: 1280-12FF
   #define CO_NO_LSS_SERVER               0   //LSS Slave
   #define CO_NO_LSS_CLIENT               0   //LSS Master
-  #define CO_NO_RPDO                     1   //Associated objects: 14xx, 16xx
+  #define CO_NO_RPDO                     3   //Associated objects: 14xx, 16xx
   #define CO_NO_TPDO                     4   //Associated objects: 18xx, 1Axx
   #define CO_NO_NMT_MASTER               1
 
@@ -124,7 +124,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             119
+   #define CO_OD_NoOfElements             126
 
 
 /*******************************************************************************
@@ -340,6 +340,20 @@
         #define OD_1400_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
         #define OD_1400_2_RPDOCommunicationParameter_transmissionType 2
 
+/*1401 */
+        #define OD_1401_RPDOCommunicationParameter                  0x1401
+
+        #define OD_1401_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1401_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1401_2_RPDOCommunicationParameter_transmissionType 2
+
+/*1402 */
+        #define OD_1402_RPDOCommunicationParameter                  0x1402
+
+        #define OD_1402_0_RPDOCommunicationParameter_maxSubIndex    0
+        #define OD_1402_1_RPDOCommunicationParameter_COB_IDUsedByRPDO 1
+        #define OD_1402_2_RPDOCommunicationParameter_transmissionType 2
+
 /*1600 */
         #define OD_1600_RPDOMappingParameter                        0x1600
 
@@ -352,6 +366,32 @@
         #define OD_1600_6_RPDOMappingParameter_mappedObject6        6
         #define OD_1600_7_RPDOMappingParameter_mappedObject7        7
         #define OD_1600_8_RPDOMappingParameter_mappedObject8        8
+
+/*1601 */
+        #define OD_1601_RPDOMappingParameter                        0x1601
+
+        #define OD_1601_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1601_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1601_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1601_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1601_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1601_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1601_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1601_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1601_8_RPDOMappingParameter_mappedObject8        8
+
+/*1602 */
+        #define OD_1602_RPDOMappingParameter                        0x1602
+
+        #define OD_1602_0_RPDOMappingParameter_maxSubIndex          0
+        #define OD_1602_1_RPDOMappingParameter_mappedObject1        1
+        #define OD_1602_2_RPDOMappingParameter_mappedObject2        2
+        #define OD_1602_3_RPDOMappingParameter_mappedObject3        3
+        #define OD_1602_4_RPDOMappingParameter_mappedObject4        4
+        #define OD_1602_5_RPDOMappingParameter_mappedObject5        5
+        #define OD_1602_6_RPDOMappingParameter_mappedObject6        6
+        #define OD_1602_7_RPDOMappingParameter_mappedObject7        7
+        #define OD_1602_8_RPDOMappingParameter_mappedObject8        8
 
 /*1800 */
         #define OD_1800_TPDOCommunicationParameter                  0x1800
@@ -452,9 +492,6 @@
 /*1f80 */
         #define OD_1f80_NMTStartup                                  0x1f80
 
-/*2000 */
-        #define OD_2000_look                                        0x2000
-
 /*2001 */
         #define OD_2001_yaw                                         0x2001
 
@@ -463,6 +500,18 @@
 
 /*2003 */
         #define OD_2003_roll                                        0x2003
+
+/*2004 */
+        #define OD_2004_drawerTemperature                           0x2004
+
+/*2005 */
+        #define OD_2005_headTemperature                             0x2005
+
+/*2006 */
+        #define OD_2006_RSSI                                        0x2006
+
+/*2007 */
+        #define OD_2007_headFans                                    0x2007
 
 /*2100 */
         #define OD_2100_errorStatusBits                             0x2100
@@ -1437,8 +1486,8 @@
 struct sCO_OD_ROM{
                UNSIGNED32     FirstWord;
 
-/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[1];
-/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[1];
+/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[3];
+/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[3];
 
                UNSIGNED32     LastWord;
 };
@@ -1471,10 +1520,13 @@ struct sCO_OD_RAM{
 /*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[4];
 /*1a00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[4];
 /*1f80      */ UNSIGNED32      NMTStartup;
-/*2000      */ UNSIGNED64      look;
 /*2001      */ INTEGER16       yaw;
 /*2002      */ INTEGER16       pitch;
 /*2003      */ INTEGER16       roll;
+/*2004      */ REAL32          drawerTemperature;
+/*2005      */ REAL32          headTemperature;
+/*2006      */ INTEGER16       RSSI;
+/*2007      */ UNSIGNED8       headFans;
 /*2100      */ OCTET_STRING    errorStatusBits[10];
 /*2101      */ UNSIGNED8       CANNodeID;
 /*2102      */ UNSIGNED16      CANBitRate;
@@ -1614,9 +1666,6 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 /*1f80, Data Type: UNSIGNED32 */
         #define OD_NMTStartup                                       CO_OD_RAM.NMTStartup
 
-/*2000, Data Type: UNSIGNED64 */
-        #define OD_look                                             CO_OD_RAM.look
-
 /*2001, Data Type: INTEGER16 */
         #define OD_yaw                                              CO_OD_RAM.yaw
 
@@ -1625,6 +1674,18 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*2003, Data Type: INTEGER16 */
         #define OD_roll                                             CO_OD_RAM.roll
+
+/*2004, Data Type: REAL32 */
+        #define OD_drawerTemperature                                CO_OD_RAM.drawerTemperature
+
+/*2005, Data Type: REAL32 */
+        #define OD_headTemperature                                  CO_OD_RAM.headTemperature
+
+/*2006, Data Type: INTEGER16 */
+        #define OD_RSSI                                             CO_OD_RAM.RSSI
+
+/*2007, Data Type: UNSIGNED8 */
+        #define OD_headFans                                         CO_OD_RAM.headFans
 
 /*2100, Data Type: OCTET_STRING */
         #define OD_errorStatusBits                                  CO_OD_RAM.errorStatusBits
