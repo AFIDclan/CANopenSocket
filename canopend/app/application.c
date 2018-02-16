@@ -210,7 +210,7 @@ static void left_pdo()
     if(last_current != OD_leftCurrent)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: LeftCurrentOut=%.2f\n", OD_leftCurrent/1000.0);
+        int len = sprintf(buf, "PDO: LeftCurrent=%.2f\n", OD_leftCurrent/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -262,17 +262,17 @@ static void right_pdo()
 
     last_current = OD_rightCurrent;
 
-    if(last_current_out != OD_rightCurrentOut)
+    if(last_current != OD_rightCurrent)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightCurrentOut=%.2f\n", OD_rightCurrentOut/1000.0);
+        int len = sprintf(buf, "PDO: RightCurrent=%.2f\n", OD_rightCurrent/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
         CO_command_write(buf, len);
     }
 
-    last_current_out = OD_rightCurrentOut;
+    last_current = OD_rightCurrent;
 }
 
 static void power_pdo()
