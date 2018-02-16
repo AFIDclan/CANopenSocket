@@ -30,7 +30,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /******************************************************************************/
 void app_programStart(void){
 
@@ -56,50 +55,279 @@ void app_programAsync(uint16_t timer1msDiff){
 
 
 /******************************************************************************/
-void app_program1ms(void){
-    static uint8_t count;
+static void neck_pdo()
+{
     static int16_t last_yaw, last_last_yaw;
     static int16_t last_pitch, last_last_pitch;
     static int16_t last_roll, last_last_roll;
+    float yaw_f, pitch_f, roll_f;
 
-    if(++count >= 100)
+    // Discard jumps of 0.2 Rad (~12 degrees)
+    if((abs(OD_yaw - last_yaw) > 200) && (abs(OD_yaw - last_last_yaw) > 200))
+        yaw_f = last_yaw / 1000.0;
+    else yaw_f = OD_yaw / 1000.0;
+
+    if(last_yaw != OD_yaw)
     {
-        int16_t yaw, pitch, roll;
-        float yaw_f, pitch_f, roll_f;
         char buf[40];
-        int len;
+        int len = sprintf(buf, "PDO: Yaw=%.3f\n", yaw_f);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
 
-        count = 0;
-        yaw = ((OD_look >> 32) & 0xFFFF);
-        pitch = ((OD_look >> 16) & 0xFFFF);
-        roll = (OD_look & 0xFFFF);
+    last_last_yaw = last_yaw;
+    last_yaw = OD_yaw;
 
-        // Discard jumps of 0.2 Rad (~12 degrees)
-        if((abs(yaw - last_yaw) > 200) && (abs(yaw - last_last_yaw) > 200))
-            yaw_f = last_yaw / 1000.0;
-        else yaw_f = yaw / 1000.0;
+    // Discard jumps of 0.2 Rad (~12 degrees)
+    if((abs(OD_pitch - last_pitch) > 200) && (abs(OD_pitch - last_last_pitch) > 200))
+        pitch_f = last_pitch / 1000.0;
+    else pitch_f = OD_pitch / 1000.0;
 
-        if((abs(pitch - last_pitch) > 200) && (abs(pitch - last_last_pitch) > 200))
-            pitch_f = last_pitch / 1000.0;
-        else pitch_f = pitch / 1000.0;
+    if(last_pitch != OD_pitch)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: Pitch=%.3f\n", pitch_f);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
 
-        if((abs(roll - last_roll) > 200) && (abs(roll - last_last_roll) > 200))
-            roll_f = last_roll / 1000.0;
-        else roll_f = roll / 1000.0;
+    last_last_pitch = last_pitch;
+    last_pitch = OD_pitch;
 
-        // Send data to socket if there was a change
-        if(last_yaw != yaw || last_pitch != pitch || last_roll != roll)
-        {
-            len = sprintf(buf, "PDO: %.3f %.3f %.3f\r\n", yaw_f, pitch_f, roll_f);
-            CO_command_write(buf, len);
-        }
+    // Discard jumps of 0.2 Rad (~12 degrees)
+    if((abs(OD_roll - last_roll) > 200) && (abs(OD_roll - last_last_roll) > 200))
+        roll_f = last_roll / 1000.0;
+    else roll_f = OD_roll / 1000.0;
 
-        last_last_yaw = last_yaw;
-        last_last_pitch = last_pitch;
-        last_last_roll = last_roll;
+    if(last_roll != OD_roll)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: Roll=%.3f\n", roll_f);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
 
-        last_yaw = yaw;
-        last_pitch = pitch;
-        last_roll = roll;
+    last_last_roll = last_roll;
+    last_roll = OD_roll;
+}
+
+static void drawer_pdo()
+{
+    static float last_temp;
+
+    if(last_temp != OD_drawerTemperature)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: DrawerTemp=%.1f\n", OD_drawerTemperature);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_temp = OD_drawerTemperature;
+}
+
+static void head_pdo()
+{
+    static float last_temp;
+    static int16_t last_rssi;
+    static uint8_t last_fanspeed;
+
+    if(last_temp != OD_headTemperature)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: HeadTemp=%.1f\n", OD_headTemperature);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_temp = OD_headTemperature;
+
+    if(last_rssi != OD_RSSI)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: RSSI=%d\n", OD_RSSI);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_rssi = OD_RSSI;
+
+    if(last_fanspeed != OD_headFans)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: Fans=%u\n", OD_headFans);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_fanspeed = OD_headFans;
+}
+
+static void left_pdo()
+{
+    static int16_t last_rpm;
+    static float last_temp;
+    static int16_t last_current;
+
+    if(last_rpm != OD_leftRPM)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: LeftRPM=%d\n", OD_leftRPM);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_rpm = OD_leftRPM;
+
+    if(last_temp != OD_leftTemperature)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: LeftTemperature=%.1f\n", OD_leftTemperature);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_temp = OD_leftTemperature;
+
+    if(last_current != OD_leftCurrent)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: LeftCurrent=%.2f\n", OD_leftCurrent/1000.0);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_current = OD_leftCurrent;
+}
+
+static void right_pdo()
+{
+    static int16_t last_rpm;
+    static float last_temp;
+    static int16_t last_current;
+
+    if(last_rpm != OD_rightRPM)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: RightRPM=%d\n", OD_rightRPM);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_rpm = OD_rightRPM;
+
+    if(last_temp != OD_rightTemperature)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: RightTemperature=%.1f\n", OD_rightTemperature);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_temp = OD_rightTemperature;
+
+    if(last_current != OD_rightCurrent)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: RightCurrentIn=%.2f\n", OD_rightCurrent/1000.0);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_current = OD_rightCurrent;
+
+    if(last_current != OD_rightCurrent)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: RightCurrent=%.2f\n", OD_rightCurrent/1000.0);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_current = OD_rightCurrent;
+}
+
+static void power_pdo()
+{
+    static float last_soc;
+    static float last_ahused;
+
+    if(last_soc != OD_soC)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: SoC=%.1f\n", OD_soC);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_soc = OD_soC;
+
+    if(last_ahused != OD_ahused)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: AhUsed=%f\n", OD_ahused);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_ahused = OD_ahused;
+}
+
+
+/******************************************************************************/
+void app_program1ms(void){
+    static uint8_t count;
+
+    switch(++count)
+    {
+        case 20:
+            neck_pdo();
+            break;
+        case 40:
+            drawer_pdo();
+            break;
+        case 60:
+            head_pdo();
+            break;
+        case 80:
+            left_pdo();
+            right_pdo();
+            break;
+        case 100:
+            power_pdo();
+            count = 0;
+            break;
     }
 }
