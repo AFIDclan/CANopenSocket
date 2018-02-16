@@ -30,8 +30,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define DEBUG
-
 /******************************************************************************/
 void app_programStart(void){
 
@@ -126,7 +124,7 @@ static void drawer_pdo()
     if(last_temp != OD_drawerTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: DrawerTemp=%.3f\n", OD_drawerTemperature);
+        int len = sprintf(buf, "PDO: DrawerTemp=%.1f\n", OD_drawerTemperature);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -145,7 +143,7 @@ static void head_pdo()
     if(last_temp != OD_headTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: HeadTemp=%.3f\n", OD_headTemperature);
+        int len = sprintf(buf, "PDO: HeadTemp=%.1f\n", OD_headTemperature);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -201,7 +199,7 @@ static void left_pdo()
     if(last_temp != OD_leftTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: LeftTemperature=%d\n", OD_leftTemperature);
+        int len = sprintf(buf, "PDO: LeftTemperature=%.1f\n", OD_leftTemperature/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -213,7 +211,7 @@ static void left_pdo()
     if(last_current_in != OD_leftCurrentIn)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: LeftCurrentIn=%d\n", OD_leftCurrentIn);
+        int len = sprintf(buf, "PDO: LeftCurrentIn=%.2f\n", OD_leftCurrentIn/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -225,7 +223,7 @@ static void left_pdo()
     if(last_current_out != OD_leftCurrentOut)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: LeftCurrentOut=%d\n", OD_leftCurrentOut);
+        int len = sprintf(buf, "PDO: LeftCurrentOut=%.2f\n", OD_leftCurrentOut/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -257,7 +255,7 @@ static void right_pdo()
     if(last_temp != OD_rightTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightTemperature=%d\n", OD_rightTemperature);
+        int len = sprintf(buf, "PDO: RightTemperature=%.1f\n", OD_rightTemperature/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -269,7 +267,7 @@ static void right_pdo()
     if(last_current_in != OD_rightCurrentIn)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightCurrentIn=%d\n", OD_rightCurrentIn);
+        int len = sprintf(buf, "PDO: RightCurrentIn=%.2f\n", OD_rightCurrentIn/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -281,7 +279,7 @@ static void right_pdo()
     if(last_current_out != OD_rightCurrentOut)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightCurrentOut=%d\n", OD_rightCurrentOut);
+        int len = sprintf(buf, "PDO: RightCurrentOut=%.2f\n", OD_rightCurrentOut/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -299,7 +297,7 @@ static void power_pdo()
     if(last_soc != OD_soC)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: SoC=%d\n", OD_soC);
+        int len = sprintf(buf, "PDO: SoC=%.1f\n", OD_soC);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -311,7 +309,7 @@ static void power_pdo()
     if(last_ahused != OD_ahused)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: AhUsed=%d\n", OD_ahused);
+        int len = sprintf(buf, "PDO: AhUsed=%f\n", OD_ahused);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -326,14 +324,24 @@ static void power_pdo()
 void app_program1ms(void){
     static uint8_t count;
 
-    if(++count >= 50)
+    switch(++count)
     {
-        count = 0;
-        neck_pdo();
-        drawer_pdo();
-        head_pdo();
-        left_pdo();
-        right_pdo();
-        power_pdo();
+        case 20:
+            neck_pdo();
+            break;
+        case 40:
+            drawer_pdo();
+            break;
+        case 60:
+            head_pdo();
+            break;
+        case 80:
+            left_pdo();
+            right_pdo();
+            break;
+        case 100:
+            power_pdo();
+            count = 0;
+            break;
     }
 }
