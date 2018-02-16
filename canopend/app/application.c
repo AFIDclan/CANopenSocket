@@ -180,9 +180,8 @@ static void head_pdo()
 static void left_pdo()
 {
     static int16_t last_rpm;
-    static int16_t last_temp;
-    static int16_t last_current_in;
-    static int16_t last_current_out;
+    static float last_temp;
+    static int16_t last_current;
 
     if(last_rpm != OD_leftRPM)
     {
@@ -199,7 +198,7 @@ static void left_pdo()
     if(last_temp != OD_leftTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: LeftTemperature=%.1f\n", OD_leftTemperature/1000.0);
+        int len = sprintf(buf, "PDO: LeftTemperature=%.1f\n", OD_leftTemperature);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -208,37 +207,24 @@ static void left_pdo()
 
     last_temp = OD_leftTemperature;
 
-    if(last_current_in != OD_leftCurrentIn)
+    if(last_current != OD_leftCurrent)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: LeftCurrentIn=%.2f\n", OD_leftCurrentIn/1000.0);
+        int len = sprintf(buf, "PDO: LeftCurrentOut=%.2f\n", OD_leftCurrent/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
         CO_command_write(buf, len);
     }
 
-    last_current_in = OD_leftCurrentIn;
-
-    if(last_current_out != OD_leftCurrentOut)
-    {
-        char buf[40];
-        int len = sprintf(buf, "PDO: LeftCurrentOut=%.2f\n", OD_leftCurrentOut/1000.0);
-        #ifdef DEBUG
-        printf("%s", buf);
-        #endif
-        CO_command_write(buf, len);
-    }
-
-    last_current_out = OD_leftCurrentOut;
+    last_current = OD_leftCurrent;
 }
 
 static void right_pdo()
 {
     static int16_t last_rpm;
-    static int16_t last_temp;
-    static int16_t last_current_in;
-    static int16_t last_current_out;
+    static float last_temp;
+    static int16_t last_current;
 
     if(last_rpm != OD_rightRPM)
     {
@@ -255,7 +241,7 @@ static void right_pdo()
     if(last_temp != OD_rightTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightTemperature=%.1f\n", OD_rightTemperature/1000.0);
+        int len = sprintf(buf, "PDO: RightTemperature=%.1f\n", OD_rightTemperature);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -264,17 +250,17 @@ static void right_pdo()
 
     last_temp = OD_rightTemperature;
 
-    if(last_current_in != OD_rightCurrentIn)
+    if(last_current != OD_rightCurrent)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightCurrentIn=%.2f\n", OD_rightCurrentIn/1000.0);
+        int len = sprintf(buf, "PDO: RightCurrentIn=%.2f\n", OD_rightCurrent/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
         CO_command_write(buf, len);
     }
 
-    last_current_in = OD_rightCurrentIn;
+    last_current = OD_rightCurrent;
 
     if(last_current_out != OD_rightCurrentOut)
     {

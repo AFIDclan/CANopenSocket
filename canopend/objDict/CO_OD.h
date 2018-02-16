@@ -124,7 +124,7 @@
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             142
+   #define CO_OD_NoOfElements             140
 
 
 /*******************************************************************************
@@ -586,10 +586,7 @@
         #define OD_200b_leftTemperature                             0x200b
 
 /*200c */
-        #define OD_200c_leftCurrentIn                               0x200c
-
-/*200d */
-        #define OD_200d_leftCurrentOut                              0x200d
+        #define OD_200c_leftCurrent                                 0x200c
 
 /*200e */
         #define OD_200e_rightRPM                                    0x200e
@@ -598,10 +595,7 @@
         #define OD_200f_rightTemperature                            0x200f
 
 /*2010 */
-        #define OD_2010_rightCurrentIn                              0x2010
-
-/*2011 */
-        #define OD_2011_rightCurrentOut                             0x2011
+        #define OD_2010_rightCurrent                                0x2010
 
 /*2100 */
         #define OD_2100_errorStatusBits                             0x2100
@@ -1576,8 +1570,6 @@
 struct sCO_OD_ROM{
                UNSIGNED32     FirstWord;
 
-/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[6];
-/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[6];
 
                UNSIGNED32     LastWord;
 };
@@ -1607,6 +1599,8 @@ struct sCO_OD_RAM{
 /*1029      */ UNSIGNED8       errorBehavior[6];
 /*1200      */ OD_SDOServerParameter_t SDOServerParameter[1];
 /*1280      */ OD_SDOClientParameter_t SDOClientParameter[1];
+/*1400      */ OD_RPDOCommunicationParameter_t RPDOCommunicationParameter[6];
+/*1600      */ OD_RPDOMappingParameter_t RPDOMappingParameter[6];
 /*1800      */ OD_TPDOCommunicationParameter_t TPDOCommunicationParameter[4];
 /*1a00      */ OD_TPDOMappingParameter_t TPDOMappingParameter[4];
 /*1f80      */ UNSIGNED32      NMTStartup;
@@ -1620,13 +1614,11 @@ struct sCO_OD_RAM{
 /*2008      */ REAL32          soC;
 /*2009      */ REAL32          ahused;
 /*200a      */ INTEGER16       leftRPM;
-/*200b      */ INTEGER16       leftTemperature;
-/*200c      */ INTEGER16       leftCurrentIn;
-/*200d      */ INTEGER16       leftCurrentOut;
+/*200b      */ REAL32          leftTemperature;
+/*200c      */ INTEGER16       leftCurrent;
 /*200e      */ INTEGER16       rightRPM;
-/*200f      */ INTEGER16       rightTemperature;
-/*2010      */ INTEGER16       rightCurrentIn;
-/*2011      */ INTEGER16       rightCurrentOut;
+/*200f      */ REAL32          rightTemperature;
+/*2010      */ INTEGER16       rightCurrent;
 /*2100      */ OCTET_STRING    errorStatusBits[10];
 /*2101      */ UNSIGNED8       CANNodeID;
 /*2102      */ UNSIGNED16      CANBitRate;
@@ -1752,10 +1744,10 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
         #define OD_SDOClientParameter                               CO_OD_RAM.SDOClientParameter
 
 /*1400, Data Type: RPDOCommunicationParameter_t */
-        #define OD_RPDOCommunicationParameter                       CO_OD_ROM.RPDOCommunicationParameter
+        #define OD_RPDOCommunicationParameter                       CO_OD_RAM.RPDOCommunicationParameter
 
 /*1600, Data Type: RPDOMappingParameter_t */
-        #define OD_RPDOMappingParameter                             CO_OD_ROM.RPDOMappingParameter
+        #define OD_RPDOMappingParameter                             CO_OD_RAM.RPDOMappingParameter
 
 /*1800, Data Type: TPDOCommunicationParameter_t */
         #define OD_TPDOCommunicationParameter                       CO_OD_RAM.TPDOCommunicationParameter
@@ -1796,26 +1788,20 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 /*200a, Data Type: INTEGER16 */
         #define OD_leftRPM                                          CO_OD_RAM.leftRPM
 
-/*200b, Data Type: INTEGER16 */
+/*200b, Data Type: REAL32 */
         #define OD_leftTemperature                                  CO_OD_RAM.leftTemperature
 
 /*200c, Data Type: INTEGER16 */
-        #define OD_leftCurrentIn                                    CO_OD_RAM.leftCurrentIn
-
-/*200d, Data Type: INTEGER16 */
-        #define OD_leftCurrentOut                                   CO_OD_RAM.leftCurrentOut
+        #define OD_leftCurrent                                      CO_OD_RAM.leftCurrent
 
 /*200e, Data Type: INTEGER16 */
         #define OD_rightRPM                                         CO_OD_RAM.rightRPM
 
-/*200f, Data Type: INTEGER16 */
+/*200f, Data Type: REAL32 */
         #define OD_rightTemperature                                 CO_OD_RAM.rightTemperature
 
 /*2010, Data Type: INTEGER16 */
-        #define OD_rightCurrentIn                                   CO_OD_RAM.rightCurrentIn
-
-/*2011, Data Type: INTEGER16 */
-        #define OD_rightCurrentOut                                  CO_OD_RAM.rightCurrentOut
+        #define OD_rightCurrent                                     CO_OD_RAM.rightCurrent
 
 /*2100, Data Type: OCTET_STRING */
         #define OD_errorStatusBits                                  CO_OD_RAM.errorStatusBits

@@ -607,7 +607,7 @@ PDOMapping=0
 [1400]
 ParameterName=RPDO communication parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x3
 
 [1400sub0]
@@ -640,7 +640,7 @@ PDOMapping=0
 [1401]
 ParameterName=RPDO communication parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x3
 
 [1401sub0]
@@ -673,7 +673,7 @@ PDOMapping=0
 [1402]
 ParameterName=RPDO communication parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x3
 
 [1402sub0]
@@ -706,7 +706,7 @@ PDOMapping=0
 [1403]
 ParameterName=RPDO communication parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x3
 
 [1403sub0]
@@ -739,7 +739,7 @@ PDOMapping=0
 [1404]
 ParameterName=RPDO communication parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x3
 
 [1404sub0]
@@ -772,7 +772,7 @@ PDOMapping=0
 [1405]
 ParameterName=RPDO communication parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x3
 
 [1405sub0]
@@ -805,7 +805,7 @@ PDOMapping=0
 [1600]
 ParameterName=RPDO mapping parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x9
 
 [1600sub0]
@@ -892,7 +892,7 @@ PDOMapping=0
 [1601]
 ParameterName=RPDO mapping parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x9
 
 [1601sub0]
@@ -979,7 +979,7 @@ PDOMapping=0
 [1602]
 ParameterName=RPDO mapping parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x9
 
 [1602sub0]
@@ -1066,7 +1066,7 @@ PDOMapping=0
 [1603]
 ParameterName=RPDO mapping parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x9
 
 [1603sub0]
@@ -1075,7 +1075,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=ro
-DefaultValue=4
+DefaultValue=3
 PDOMapping=0
 
 [1603sub1]
@@ -1093,7 +1093,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=ro
-DefaultValue=0x200b0010
+DefaultValue=0x200c0010
 PDOMapping=0
 
 [1603sub3]
@@ -1102,7 +1102,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=ro
-DefaultValue=0x200c0010
+DefaultValue=0x200b0020
 PDOMapping=0
 
 [1603sub4]
@@ -1111,7 +1111,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=ro
-DefaultValue=0x200d0010
+DefaultValue=0x00000000
 PDOMapping=0
 
 [1603sub5]
@@ -1153,7 +1153,7 @@ PDOMapping=0
 [1604]
 ParameterName=RPDO mapping parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x9
 
 [1604sub0]
@@ -1162,7 +1162,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0005
 AccessType=ro
-DefaultValue=4
+DefaultValue=3
 PDOMapping=0
 
 [1604sub1]
@@ -1180,7 +1180,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=ro
-DefaultValue=0x200f0010
+DefaultValue=0x20100010
 PDOMapping=0
 
 [1604sub3]
@@ -1189,7 +1189,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=ro
-DefaultValue=0x20100010
+DefaultValue=0x200f0020
 PDOMapping=0
 
 [1604sub4]
@@ -1198,7 +1198,7 @@ ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0007
 AccessType=ro
-DefaultValue=0x20110010
+DefaultValue=0x00000000
 PDOMapping=0
 
 [1604sub5]
@@ -1240,7 +1240,7 @@ PDOMapping=0
 [1605]
 ParameterName=RPDO mapping parameter
 ObjectType=0x9
-;StorageLocation=ROM
+;StorageLocation=RAM
 SubNumber=0x9
 
 [1605sub0]
@@ -2342,7 +2342,7 @@ DefaultValue=0
 PDOMapping=1
 
 [ManufacturerObjects]
-SupportedObjects=96
+SupportedObjects=94
 1=0x2001
 2=0x2002
 3=0x2003
@@ -2355,90 +2355,88 @@ SupportedObjects=96
 10=0x200A
 11=0x200B
 12=0x200C
-13=0x200D
-14=0x200E
-15=0x200F
-16=0x2010
-17=0x2011
-18=0x2100
-19=0x2101
-20=0x2102
-21=0x2103
-22=0x2104
-23=0x2106
-24=0x2107
-25=0x2108
-26=0x2109
-27=0x2110
-28=0x2111
-29=0x2112
-30=0x2120
-31=0x2130
-32=0x2301
-33=0x2302
-34=0x2303
-35=0x2304
-36=0x2305
-37=0x2306
-38=0x2307
-39=0x2308
-40=0x2309
-41=0x230A
-42=0x230B
-43=0x230C
-44=0x230D
-45=0x230E
-46=0x230F
-47=0x2310
-48=0x2311
-49=0x2312
-50=0x2313
-51=0x2314
-52=0x2315
-53=0x2316
-54=0x2317
-55=0x2318
-56=0x2319
-57=0x231A
-58=0x231B
-59=0x231C
-60=0x231D
-61=0x231E
-62=0x231F
-63=0x2320
-64=0x2400
-65=0x2401
-66=0x2402
-67=0x2403
-68=0x2404
-69=0x2405
-70=0x2406
-71=0x2407
-72=0x2408
-73=0x2409
-74=0x240A
-75=0x240B
-76=0x240C
-77=0x240D
-78=0x240E
-79=0x240F
-80=0x2410
-81=0x2411
-82=0x2412
-83=0x2413
-84=0x2414
-85=0x2415
-86=0x2416
-87=0x2417
-88=0x2418
-89=0x2419
-90=0x241A
-91=0x241B
-92=0x241C
-93=0x241D
-94=0x241E
-95=0x241F
-96=0x2420
+13=0x200E
+14=0x200F
+15=0x2010
+16=0x2100
+17=0x2101
+18=0x2102
+19=0x2103
+20=0x2104
+21=0x2106
+22=0x2107
+23=0x2108
+24=0x2109
+25=0x2110
+26=0x2111
+27=0x2112
+28=0x2120
+29=0x2130
+30=0x2301
+31=0x2302
+32=0x2303
+33=0x2304
+34=0x2305
+35=0x2306
+36=0x2307
+37=0x2308
+38=0x2309
+39=0x230A
+40=0x230B
+41=0x230C
+42=0x230D
+43=0x230E
+44=0x230F
+45=0x2310
+46=0x2311
+47=0x2312
+48=0x2313
+49=0x2314
+50=0x2315
+51=0x2316
+52=0x2317
+53=0x2318
+54=0x2319
+55=0x231A
+56=0x231B
+57=0x231C
+58=0x231D
+59=0x231E
+60=0x231F
+61=0x2320
+62=0x2400
+63=0x2401
+64=0x2402
+65=0x2403
+66=0x2404
+67=0x2405
+68=0x2406
+69=0x2407
+70=0x2408
+71=0x2409
+72=0x240A
+73=0x240B
+74=0x240C
+75=0x240D
+76=0x240E
+77=0x240F
+78=0x2410
+79=0x2411
+80=0x2412
+81=0x2413
+82=0x2414
+83=0x2415
+84=0x2416
+85=0x2417
+86=0x2418
+87=0x2419
+88=0x241A
+89=0x241B
+90=0x241C
+91=0x241D
+92=0x241E
+93=0x241F
+94=0x2420
 
 [2001]
 ParameterName=Yaw
@@ -2534,22 +2532,13 @@ PDOMapping=1
 ParameterName=Left temperature
 ObjectType=0x7
 ;StorageLocation=RAM
-DataType=0x0003
+DataType=0x0008
 AccessType=rw
 DefaultValue=
 PDOMapping=1
 
 [200C]
-ParameterName=Left current in
-ObjectType=0x7
-;StorageLocation=RAM
-DataType=0x0003
-AccessType=rw
-DefaultValue=
-PDOMapping=1
-
-[200D]
-ParameterName=Left current out
+ParameterName=Left current
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0003
@@ -2570,22 +2559,13 @@ PDOMapping=1
 ParameterName=Right temperature
 ObjectType=0x7
 ;StorageLocation=RAM
-DataType=0x0003
+DataType=0x0008
 AccessType=rw
 DefaultValue=
 PDOMapping=1
 
 [2010]
-ParameterName=Right current in
-ObjectType=0x7
-;StorageLocation=RAM
-DataType=0x0003
-AccessType=rw
-DefaultValue=
-PDOMapping=1
-
-[2011]
-ParameterName=Right current out
+ParameterName=Right current
 ObjectType=0x7
 ;StorageLocation=RAM
 DataType=0x0003
