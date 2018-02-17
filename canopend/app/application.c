@@ -198,7 +198,7 @@ static void left_pdo()
     if(last_temp != OD_leftTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: LeftTemperature=%.1f\n", OD_leftTemperature);
+        int len = sprintf(buf, "PDO: LeftTemp=%.1f\n", OD_leftTemperature);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
@@ -241,7 +241,7 @@ static void right_pdo()
     if(last_temp != OD_rightTemperature)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightTemperature=%.1f\n", OD_rightTemperature);
+        int len = sprintf(buf, "PDO: RightTemp=%.1f\n", OD_rightTemperature);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
