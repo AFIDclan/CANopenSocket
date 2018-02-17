@@ -253,18 +253,6 @@ static void right_pdo()
     if(last_current != OD_rightCurrent)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: RightCurrentIn=%.2f\n", OD_rightCurrent/1000.0);
-        #ifdef DEBUG
-        printf("%s", buf);
-        #endif
-        CO_command_write(buf, len);
-    }
-
-    last_current = OD_rightCurrent;
-
-    if(last_current != OD_rightCurrent)
-    {
-        char buf[40];
         int len = sprintf(buf, "PDO: RightCurrent=%.2f\n", OD_rightCurrent/1000.0);
         #ifdef DEBUG
         printf("%s", buf);
