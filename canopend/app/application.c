@@ -298,6 +298,7 @@ static void power_pdo()
 void app_program1ms(void){
     static uint8_t count;
 
+    CO->NMT->operatingState = CO_NMT_OPERATIONAL;
     switch(++count)
     {
         case 20:
