@@ -14,27 +14,27 @@
    This file is part of CANopenNode, an opensource CANopen Stack.
    Project home page is <https://github.com/CANopenNode/CANopenNode>.
    For more information on CANopen see <http://www.can-cia.org/>.
-
+ 
    CANopenNode is free and open source software: you can redistribute
    it and/or modify it under the terms of the GNU General Public License
    as published by the Free Software Foundation, either version 2 of the
    License, or (at your option) any later version.
-
+  
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
    GNU General Public License for more details.
-
+  
    You should have received a copy of the GNU General Public License
    along with this program. If not, see <http://www.gnu.org/licenses/>.
-
+  
    Following clarification and special exception to the GNU General Public
    License is included to the distribution terms of CANopenNode:
-
+  
    Linking this library statically or dynamically with other modules is
    making a combined work based on this library. Thus, the terms and
    conditions of the GNU General Public License cover the whole combination.
-
+  
    As a special exception, the copyright holders of this library give
    you permission to link this library with independent modules to
    produce an executable, regardless of the license terms of these
@@ -46,9 +46,9 @@
    library, you may extend this exception to your version of the
    library, but you are not obliged to do so. If you do not wish
    to do so, delete this exception statement from your version.
-
+ 
    This file was automatically generated with libedssharp Object
-   Dictionary Editor v0.6-xdd-2-25-g654cd98
+   Dictionary Editor v0.6-xdd-alpha-81-gb562769
    DON'T EDIT THIS FILE MANUALLY !!!!
 *******************************************************************************/
 
@@ -56,7 +56,7 @@
 #pragma once
 
 /*******************************************************************************
-   CANopen DATA TYPES
+   CANopen DATA DYPES
 *******************************************************************************/
    typedef bool_t       BOOLEAN;
    typedef uint8_t      UNSIGNED8;
@@ -67,25 +67,11 @@
    typedef int16_t      INTEGER16;
    typedef int32_t      INTEGER32;
    typedef int64_t      INTEGER64;
-   typedef float32_t    REAL32;
-   typedef float64_t    REAL64;
+   typedef float32_t    REAL32; 
+   typedef float64_t    REAL64; 
    typedef char_t       VISIBLE_STRING;
    typedef oChar_t      OCTET_STRING;
    typedef domain_t     DOMAIN;
-
-#ifndef timeOfDay_t
-    typedef union {
-        unsigned long long ullValue;
-        struct {
-            unsigned long ms:28;
-            unsigned reserved:4;
-            unsigned days:16;
-            unsigned reserved2:16;
-        };
-    }timeOfDay_t;
-#endif
-
-    typedef timeOfDay_t TIME_OF_DAY;
 
 
 /*******************************************************************************
@@ -118,13 +104,13 @@
   #define CO_NO_LSS_CLIENT               0   //LSS Master
   #define CO_NO_RPDO                     6   //Associated objects: 14xx, 16xx
   #define CO_NO_TPDO                     4   //Associated objects: 18xx, 1Axx
-  #define CO_NO_NMT_MASTER               1
+  #define CO_NO_NMT_MASTER               0
 
 
 /*******************************************************************************
    OBJECT DICTIONARY
 *******************************************************************************/
-   #define CO_OD_NoOfElements             140
+   #define CO_OD_NoOfElements             141
 
 
 /*******************************************************************************
@@ -222,7 +208,7 @@
 /*******************************************************************************
    TYPE DEFINITIONS FOR OBJECT DICTIONARY INDEXES
 
-   some of those are redundant with CO_SDO.h CO_ObjDicId_t <Common CiA301 object
+   some of those are redundant with CO_SDO.h CO_ObjDicId_t <Common CiA301 object 
    dictionary entries>
 *******************************************************************************/
 /*1000 */
@@ -596,6 +582,9 @@
 
 /*2010 */
         #define OD_2010_rightCurrent                                0x2010
+
+/*2011 */
+        #define OD_2011_heading                                     0x2011
 
 /*2100 */
         #define OD_2100_errorStatusBits                             0x2100
@@ -1619,6 +1608,7 @@ struct sCO_OD_RAM{
 /*200e      */ INTEGER16       rightRPM;
 /*200f      */ REAL32          rightTemperature;
 /*2010      */ INTEGER16       rightCurrent;
+/*2011      */ REAL32          heading;
 /*2100      */ OCTET_STRING    errorStatusBits[10];
 /*2101      */ UNSIGNED8       CANNodeID;
 /*2102      */ UNSIGNED16      CANBitRate;
@@ -1802,6 +1792,9 @@ extern struct sCO_OD_EEPROM CO_OD_EEPROM;
 
 /*2010, Data Type: INTEGER16 */
         #define OD_rightCurrent                                     CO_OD_RAM.rightCurrent
+
+/*2011, Data Type: REAL32 */
+        #define OD_heading                                          CO_OD_RAM.heading
 
 /*2100, Data Type: OCTET_STRING */
         #define OD_errorStatusBits                                  CO_OD_RAM.errorStatusBits

@@ -132,6 +132,20 @@ static void drawer_pdo()
     }
 
     last_temp = OD_drawerTemperature;
+	
+	 static float last_heading;
+
+    if(last_heading != OD_heading)
+    {
+        char buf[40];
+        int len = sprintf(buf, "PDO: Head=%.1f\n", OD_heading);
+        #ifdef DEBUG
+        printf("%s", buf);
+        #endif
+        CO_command_write(buf, len);
+    }
+
+    last_heading = OD_heading;
 }
 
 static void head_pdo()
