@@ -138,7 +138,7 @@ static void drawer_pdo()
     if(last_heading != OD_heading)
     {
         char buf[40];
-        int len = sprintf(buf, "PDO: Head=%.1f\n", OD_heading);
+        int len = sprintf(buf, "PDO: Heading=%.1f\n", OD_heading);
         #ifdef DEBUG
         printf("%s", buf);
         #endif
