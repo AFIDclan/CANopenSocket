@@ -132,7 +132,7 @@ static void drawer_pdo()
     }
 
     last_temp = OD_drawerTemperature;
-	
+
 	 static float last_heading;
 
     if(last_heading != OD_heading)
@@ -317,18 +317,10 @@ void app_program1ms(void){
     {
         case 20:
             neck_pdo();
-            break;
-        case 40:
             drawer_pdo();
-            break;
-        case 60:
             head_pdo();
-            break;
-        case 80:
             left_pdo();
             right_pdo();
-            break;
-        case 100:
             power_pdo();
             count = 0;
             break;
